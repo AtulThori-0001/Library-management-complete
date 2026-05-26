@@ -1,0 +1,14 @@
+node_modules/
+.env
+.env.local
+.DS_Store
+target/
+build/
+*.class
+*.jar
+*.war
+.idea/
+*.iml
+.classpath
+.project
+.settings/

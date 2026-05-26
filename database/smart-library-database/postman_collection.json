@@ -1,0 +1,424 @@
+{
+  "info": {
+    "name": "Smart Library Management System",
+    "description": "Complete REST API collection for Smart Library Management System",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login (Admin)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/login",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"usernameOrEmail\": \"admin\", \"password\": \"Admin@123\"}"
+            }
+          }
+        },
+        {
+          "name": "Login (Student)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/login",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"usernameOrEmail\": \"student1\", \"password\": \"Student@123\"}"
+            }
+          }
+        },
+        {
+          "name": "Register Student",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/register/student",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"newstudent\", \"email\": \"new@college.edu\", \"password\": \"Student@123\", \"firstName\": \"New\", \"lastName\": \"Student\", \"studentId\": \"STU999\", \"department\": \"CS\", \"semester\": 1}"
+            }
+          }
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/auth/me"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Books",
+      "item": [
+        {
+          "name": "Get All Books",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/books?page=0&size=10&sortBy=createdAt&direction=desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "books"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search Books",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/books/search?keyword=java&page=0&size=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "books",
+                "search"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Book by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/books/1"
+          }
+        },
+        {
+          "name": "Get Book by ISBN",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/books/isbn/978-0262033848"
+          }
+        },
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/books/categories"
+          }
+        },
+        {
+          "name": "Get Books by Category",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/books/category/Computer Science"
+          }
+        },
+        {
+          "name": "Get Recent Books",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/books/recent?limit=5"
+          }
+        },
+        {
+          "name": "Add Book (Admin)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/books",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\": \"New Book Title\", \"author\": \"Author Name\", \"isbn\": \"978-1234567890\", \"category\": \"Computer Science\", \"totalCopies\": 2, \"price\": 500, \"publisher\": \"Publisher\", \"publishYear\": 2024, \"language\": \"English\", \"pages\": 300}"
+            }
+          }
+        },
+        {
+          "name": "Update Book (Admin)",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/books/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\": \"Updated Title\", \"author\": \"Author\", \"isbn\": \"978-0262033848\", \"totalCopies\": 5, \"price\": 900, \"language\": \"English\"}"
+            }
+          }
+        },
+        {
+          "name": "Delete Book (Admin)",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/books/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transactions",
+      "item": [
+        {
+          "name": "Issue Book (Admin)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/transactions/issue",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"userId\": 3, \"bookId\": 1, \"issueDays\": 14, \"remarks\": \"Regular issue\"}"
+            }
+          }
+        },
+        {
+          "name": "Return Book (Admin)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/transactions/return",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"transactionId\": 1, \"remarks\": \"Returned in good condition\", \"waiveFine\": false}"
+            }
+          }
+        },
+        {
+          "name": "Get All Transactions",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/transactions?page=0&size=10"
+          }
+        },
+        {
+          "name": "Get Active Issues",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/transactions/active"
+          }
+        },
+        {
+          "name": "Get Overdue Transactions",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/transactions/overdue"
+          }
+        },
+        {
+          "name": "Get My Books (Student)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/transactions/my-books"
+          }
+        },
+        {
+          "name": "Download PDF Report",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/transactions/report?type=all"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users / Students",
+      "item": [
+        {
+          "name": "Get All Students",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/users/students?page=0&size=10"
+          }
+        },
+        {
+          "name": "Search Students",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/users/students?keyword=alice&page=0&size=10"
+          }
+        },
+        {
+          "name": "Get Student by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/users/students/3"
+          }
+        },
+        {
+          "name": "Deactivate Student",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/users/students/7/deactivate"
+          }
+        },
+        {
+          "name": "Activate Student",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/users/students/7/activate"
+          }
+        },
+        {
+          "name": "Get My Profile",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/users/profile"
+          }
+        },
+        {
+          "name": "Update My Profile",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/users/profile",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"firstName\": \"Updated\", \"lastName\": \"Name\", \"phone\": \"9900000000\"}"
+            }
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/users/change-password",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"currentPassword\": \"Student@123\", \"newPassword\": \"NewPass@456\", \"confirmPassword\": \"NewPass@456\"}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reservations",
+      "item": [
+        {
+          "name": "Make Reservation (Student)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/reservations",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"bookId\": 2, \"remarks\": \"Need for exam prep\"}"
+            }
+          }
+        },
+        {
+          "name": "Cancel Reservation",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/reservations/1/cancel"
+          }
+        },
+        {
+          "name": "Fulfill Reservation (Admin)",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/reservations/1/fulfill"
+          }
+        },
+        {
+          "name": "Get All Reservations (Admin)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/reservations?page=0&size=10"
+          }
+        },
+        {
+          "name": "Get My Reservations",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/reservations/my?page=0&size=10"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Get Dashboard Stats (Admin)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/dashboard"
+          }
+        }
+      ]
+    }
+  ]
+}

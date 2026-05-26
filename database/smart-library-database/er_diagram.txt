@@ -1,0 +1,64 @@
+
+=== ER DIAGRAM — Smart Library Management System ===
+
+[users]
+  PK  id
+      username (UNIQUE)
+      email (UNIQUE)
+      password
+      first_name, last_name
+      phone, address
+      role (ADMIN | STUDENT)
+      profile_image
+      is_active
+      student_id (UNIQUE, nullable)
+      department, semester
+      created_at, updated_at
+
+[books]
+  PK  id
+      title, author
+      isbn (UNIQUE)
+      publisher, publish_year
+      category, description
+      total_copies, available_copies
+      price, location
+      cover_image, edition, language, pages
+      status (AVAILABLE | ISSUED | RESERVED | LOST)
+      created_at, updated_at
+
+[transactions]
+  PK  id
+  FK  user_id → users.id
+  FK  book_id → books.id
+      transaction_type (ISSUE | RETURN | RENEWAL)
+      issue_date, due_date, return_date
+      fine_amount, fine_paid
+      remarks
+  FK  issued_by → users.id
+  FK  returned_to → users.id
+      created_at
+
+[reservations]
+  PK  id
+  FK  user_id → books.id
+  FK  book_id → books.id
+      status (PENDING | FULFILLED | CANCELLED | EXPIRED)
+      reservation_date, expiry_date
+      remarks, created_at
+
+[fines]
+  PK  id
+  FK  transaction_id → transactions.id (UNIQUE)
+  FK  user_id → users.id
+      fine_amount, days_overdue
+      is_paid, paid_at
+      remarks, created_at
+
+RELATIONSHIPS:
+  users     1──∞  transactions  (a user can have many transactions)
+  books     1──∞  transactions  (a book can be in many transactions)
+  users     1──∞  reservations  (a user can have many reservations)
+  books     1──∞  reservations  (a book can have many reservations)
+  transactions 1──1 fines       (each overdue transaction has one fine)
+  users     1──∞  fines         (a user can have many fines)
